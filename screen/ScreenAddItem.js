@@ -66,9 +66,10 @@ export default function ScreenAddItem({ route }) {
     }
     const handleFetchData = () => {
         axios
-            .post('api.extension.by/enter.php', {
+            .post('https://api.extension.by/enter.php', {
                 "action": "additem",
                 "data": {
+                    "category_id": `${id}`,
                     "photo": `${photo}`,
                     "compName": `${compName}`,
                     "price": `${price}`,
@@ -96,7 +97,7 @@ export default function ScreenAddItem({ route }) {
                 )}
             </ImageContaier>
             <InputField
-                placeholder="Название сгентство"
+                placeholder="Название aгентства"
                 placeholderTextColor="#ffffff"
                 onChangeText={setCompName}
             />

@@ -89,7 +89,7 @@ const ButtonTextGradientWrapper = styled.View`
     font-size: 14px;
     background-color: #171A23;
     border-radius: 40;
-    padding: 11px 30px;
+    padding: 11px 20px;
     margin: 1px;
 `;
 export default function ScreenFullCategory({ route }) {
@@ -144,10 +144,11 @@ export default function ScreenFullCategory({ route }) {
                                 <LinearGradient
                                     style={{
                                             paddingTop: 12,
-                                            paddingLeft: 31,
+                                            paddingLeft: 20,
                                             paddingBottom: 12,
-                                            paddingRight: 31,
+                                            paddingRight: 20,
                                             borderRadius: 40,
+                                            marginRight: 10
                                         }}
                                         colors={["#E16FD6", "#866FE1"]}
                                         start={{x: 0, y: 1}} end={{x: 1, y: 0}}
@@ -164,7 +165,7 @@ export default function ScreenFullCategory({ route }) {
                                     start={{x: 0, y: 1}} end={{x: 1, y: 0}}
                                 >
                                     <ButtonTextGradientWrapper>
-                                        <ButtonTextGradient>Отрыть контакты</ButtonTextGradient>
+                                        <ButtonTextGradient>Открыть контакты</ButtonTextGradient>
                                     </ButtonTextGradientWrapper>
                                 </LinearGradient>
                             </TouchableOpacity>
