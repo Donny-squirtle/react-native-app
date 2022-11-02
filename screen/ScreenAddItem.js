@@ -5,6 +5,8 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import Icon from "@expo/vector-icons/FontAwesome";
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import { RadioButton } from 'react-native-paper';
 import axios from 'axios';
 
 const ImageContaier = styled.TouchableOpacity`
@@ -35,13 +37,30 @@ const TextButton = styled.Text`
     line-height: 19px;
     color: #FFFFFF;
 `;
-
+const RadioText = styled.Text`
+    font-weight: 300;
+    font-size: 14px;
+    color: #FFFFFF;
+`;
+const RadioWrapper = styled.View`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+`;
+const RadioContainer = styled.View`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+`;
 export default function ScreenAddItem({ route }) {
-    const [photo, setPhoto] = useState();
+    const [photo, setPhoto] = useState("");
     const [compName, setCompName] = useState("");
     const [price, setPrice] = useState("");
     const [activity, setActivity] = useState("");
     const [desc, setDesc] = useState("");
+    const [checked, setChecked] = useState('0');
+    const navigation = useNavigation();
     const option = {
         mediaType: 'photo',
         maxWidth: 84,
@@ -55,7 +74,7 @@ export default function ScreenAddItem({ route }) {
             allowsEditing: true,
             base64: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.2,
           });
       
           console.log(result);
@@ -69,6 +88,7 @@ export default function ScreenAddItem({ route }) {
             .post('https://api.extension.by/enter.php', {
                 "action": "additem",
                 "data": {
+                    "item_type": `${checked}`,
                     "category_id": `${id}`,
                     "photo": `${photo}`,
                     "compName": `${compName}`,
@@ -76,7 +96,15 @@ export default function ScreenAddItem({ route }) {
                     "activity": `${activity}`,
                     "desc": `${desc}`
                 }
-            })
+            }).then((data) => {
+                setPhoto("");
+                setCompName("");
+                setPrice("");
+                setActivity("");
+                setDesc("");
+                navigation.navigate("MainHome");
+            }
+            )
     }
     return (
         <CategoryContainer title={title}>
@@ -117,7 +145,25 @@ export default function ScreenAddItem({ route }) {
                 placeholderTextColor="#ffffff"
                 onChangeText={setDesc}
             />
-            <TouchableOpacity onPress={()=>handleFetchData}>
+            <RadioContainer>
+                <RadioWrapper>
+                    <RadioButton
+                        value="1"
+                        status={ checked === '0' ? 'checked' : 'unchecked' }
+                        onPress={() => setChecked('0')}
+                    />
+                    <RadioText>Агентство</RadioText>
+                </RadioWrapper>
+                <RadioWrapper>
+                <RadioButton
+                    value="2"
+                    status={ checked === '1' ? 'checked' : 'unchecked' }
+                    onPress={() => setChecked('1')}
+                    />
+                    <RadioText>Персонально</RadioText>
+                </RadioWrapper>
+            </RadioContainer>
+            <TouchableOpacity onPress={()=>handleFetchData()}>
                 <LinearGradient
                     style={{
                         paddingTop: 17,
